@@ -1,11 +1,14 @@
 from flask import Flask
+from cache import Cache
 
 app = Flask(__name__)
+cache = Cache(app=app)
 
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+@app.route('/<int:ttt>')
+@cache.cached
+def hello_world(ttt):  # put application's code here
+    return f'{ttt}'
 
 
 if __name__ == '__main__':
