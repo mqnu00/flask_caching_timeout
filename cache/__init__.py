@@ -14,6 +14,8 @@ class Cache:
     def cached(
             self,
             f: Callable,
+            threshold: int = 5,
+            timeout: int = 600,
             key_redo: Union[str, int] = None,
     ) -> Callable:
         @functools.wraps(f)
@@ -26,6 +28,7 @@ class Cache:
             if value is None:
                 value = f(*argc, **kwargs)
                 self.set(key, value)
+            self.show()
             return value
         return decorator
 
