@@ -2,22 +2,19 @@ from typing import Any, Optional
 
 
 class BaseCache:
+    """缓存基础类
+
+    """
 
     def __init__(
             self,
-            data: Any,
-            threshold: int = 500,
-            timeout: int = 600
+            default_timeout: int = 300
     ) -> None:
         """
 
-        :param data 数据的逻辑结构:
-        :param threshold 数据个数:
-        :param timeout 数据有效时间:
+        :param default_timeout: 数据有效期
         """
-        self.data = data
-        self.threshold = threshold
-        self.timeout = timeout
+        self.default_timeout = default_timeout
 
     def get(self, key: str) -> Any:
         """查找 key 对应的 value。
