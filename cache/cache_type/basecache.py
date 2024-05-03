@@ -1,4 +1,4 @@
-from typing import Any, Optional
+import typing as _t
 
 
 class BaseCache:
@@ -16,7 +16,12 @@ class BaseCache:
         """
         self.default_timeout = default_timeout
 
-    def get(self, key: str) -> Any:
+    def _normalize_timeout(self, timeout: _t.Optional[int]) -> int:
+        if timeout is None:
+            timeout = self.default_timeout
+        return timeout
+
+    def get(self, key: str) -> _t.Any:
         """查找 key 对应的 value。
 
         :param key:
@@ -32,18 +37,20 @@ class BaseCache:
         """
         return True
 
-    def set(self, key: str, value: Any) -> Optional[bool]:
+    def set(self, key: str, value: _t.Any, timeout: _t.Optional[int] = None) -> _t.Optional[bool]:
         """设置新的数据，会覆盖重复的 key。
 
+        :param timeout:
         :param key :
         :param value:
         :return: True 表示数据更新成功
         """
         return True
 
-    def add(self, key: str, value: Any) -> bool:
+    def add(self, key: str, value: _t.Any, timeout: _t.Optional[int] = None) -> bool:
         """和 set 类似，但是不会覆盖重复的 key
 
+        :param timeout:
         :param key:
         :param value:
         :return:
