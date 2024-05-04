@@ -40,7 +40,6 @@ class SimpleCache(BaseCache):
                 ignore_errors=config["CACHE_IGNORE_ERRORS"],
             )
         )
-        print(args, kwargs)
         return cls(*args, **kwargs)
 
     def _over_threshold(self) -> bool:
