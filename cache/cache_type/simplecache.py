@@ -14,7 +14,8 @@ class SimpleCache(BaseCache):
             threshold: int = 500,
             default_timeout: int = 300,
             enable_ttl: bool = True,
-            refresh_type: str = 'FIFO'
+            refresh_type: str = 'FIFO',
+            ignore_errors=False
     ):
         """
 
@@ -30,6 +31,17 @@ class SimpleCache(BaseCache):
         if refresh_type != 'FIFO' and refresh_type != 'LFU':
             raise ValueError('refresh_type must be "FIFO" or "LFU"')
         self._refresh_type = refresh_type
+
+    @classmethod
+    def factory(cls, app, config, args, kwargs):
+        kwargs.update(
+            dict(
+                threshold=config["CACHE_THRESHOLD"],
+                ignore_errors=config["CACHE_IGNORE_ERRORS"],
+            )
+        )
+        print(args, kwargs)
+        return cls(*args, **kwargs)
 
     def _over_threshold(self) -> bool:
         return len(self._cache) > self._threshold

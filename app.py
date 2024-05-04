@@ -2,7 +2,9 @@ from flask import Flask
 from cache import Cache
 
 app = Flask(__name__)
-cache = Cache(app=app)
+cache = Cache(app=app, config={
+    'CACHE_TYPE': 'simple'
+})
 
 
 @app.route('/<int:ttt>')
