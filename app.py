@@ -3,7 +3,11 @@ from cache import Cache
 
 app = Flask(__name__)
 cache = Cache(app=app, config={
-    'CACHE_TYPE': 'simple'
+    'CACHE_TYPE': 'simple',
+    'REFRESH_TYPE': 'LFU',
+    'ENABLE_TTL': True,
+    'CACHE_THRESHOLD': 5,
+    'CACHE_DEFAULT_TIMEOUT': 3
 })
 
 

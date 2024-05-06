@@ -31,6 +31,7 @@ class SimpleCache(BaseCache):
         if refresh_type != 'FIFO' and refresh_type != 'LFU':
             raise ValueError('refresh_type must be "FIFO" or "LFU"')
         self._refresh_type = refresh_type
+        pprint.pprint(self.__dict__)
 
     @classmethod
     def factory(cls, app, config, args, kwargs):
@@ -38,9 +39,14 @@ class SimpleCache(BaseCache):
             dict(
                 threshold=config["CACHE_THRESHOLD"],
                 ignore_errors=config["CACHE_IGNORE_ERRORS"],
+                refresh_type=config["REFRESH_TYPE"],
+                enable_ttl=config["ENABLE_TTL"]
             )
         )
         return cls(*args, **kwargs)
+
+    def _show(self):
+        pprint.pprint(self._cache)
 
     def _over_threshold(self) -> bool:
         return len(self._cache) > self._threshold
@@ -134,6 +140,7 @@ class SimpleCache(BaseCache):
             self._cache.setdefault(key, item)
 
     def get(self, key: str) -> _t.Any:
+        self._show()
         try:
             if self._refresh_type == 'FIFO':
                 expires, value = self._cache[key]

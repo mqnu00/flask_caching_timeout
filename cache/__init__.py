@@ -54,6 +54,9 @@ class Cache:
         config.setdefault("CACHE_TYPE", "null")
         config.setdefault("CACHE_NO_NULL_WARNING", False)
         config.setdefault("CACHE_SOURCE_CHECK", False)
+        # design
+        config.setdefault("REFRESH_TYPE", 'FIFO')
+        config.setdefault("ENABLE_TTL", True)
 
         if config["CACHE_TYPE"] == "null" and not config["CACHE_NO_NULL_WARNING"]:
             warnings.warn(
